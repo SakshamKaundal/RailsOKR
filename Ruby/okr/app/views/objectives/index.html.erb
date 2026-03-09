@@ -1,0 +1,15 @@
+<h1>Objectives</h1>
+
+<%= link_to "new objective", new_objective_path %>
+
+<div id="objectives">
+  <% @objectives.each do |objecitve| %>
+    <div>
+    <ul>
+        <li>
+            <%= link_to objecitve.title, objective_path(objecitve.id) %>
+        </li>
+    </ul>
+    </div>
+  <% end %>
+</div>
