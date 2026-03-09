@@ -2,4 +2,5 @@
 
 <%= link_to "back", objectives_path %>
 
-<%= link_to "Edit", edit_objective_path(@objectives) %>
+<%= link_to "Edit", edit_objective_path(@objective) %>
+<%= button_to "Delete", @objective, method: :delete, data: { turbo_confirm: "Are you sure?" } %>

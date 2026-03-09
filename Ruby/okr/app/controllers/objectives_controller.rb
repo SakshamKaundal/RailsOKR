@@ -1,5 +1,5 @@
 class ObjectivesController < ApplicationController
-  before_action :set_objective, only: %i[ show edit update ]
+  before_action :set_objective, only: %i[ show edit update destroy ]
 
   def index
     @objectives = Objective.all
@@ -22,48 +22,27 @@ class ObjectivesController < ApplicationController
     end
   end
 
-  class ProductsController < ApplicationController
-    def index
-      @products = Product.all
-    end
-
-    def show
-      @product = Product.find(params[:id])
-    end
-
-    def new
-      @product = Product.new
-    end
-
-    def create
-      @product = Product.new(product_params)
-      if @product.save
-        redirect_to @product
-      else
-        render :new, status: :unprocessable_entity
-      end
-    end
-
-    def edit
-      @product = Product.find(params[:id])
-    end
-
-    def update
-      @product = Product.find(params[:id])
-      if @product.update(product_params)
-        redirect_to @product
-      else
-        render :edit, status: :unprocessable_entity
-      end
-    end
-
-    private
-      def product_params
-        params.expect(product: [ :name ])
-      end
+  def destroy
+    @objective.destroy
+    redirect_to objectives_path
   end
 
-  private
+  def edit
+   end
+
+   def update
+     if @objective.update(objective_params)
+       redirect_to @objective
+     else
+       render :edit, status: :unprocessable_entity
+     end
+   end
+
+   private
+     def set_objective
+       @objective = Objective.find(params[:id])
+     end
+
     def objective_params
       params.expect(objective: [ :title ])
     end
