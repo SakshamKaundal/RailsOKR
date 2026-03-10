@@ -1,14 +1,18 @@
 <%= form_with model: objective do |form| %>
   <% if form.object.errors.any? %>
-    <p class="error"><%= form.object.errors.full_messages.first %></p>
+    <div class="mb-4 px-4 py-3 rounded-lg bg-red-50 border border-red-200 text-red-800 text-sm font-medium">
+      <%= form.object.errors.full_messages.first %>
+    </div>
   <% end %>
 
-  <div>
-    <%= form.label :title %>
-    <%= form.text_field :title %>
+  <div class="mb-5">
+    <%= form.label :title, class: "block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1" %>
+    <%= form.text_field :title,
+          placeholder: "e.g. Increase Customer Satisfaction",
+          class: "w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition" %>
   </div>
 
   <div>
-    <%= form.submit %>
+    <%= form.submit class: "bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold px-5 py-2 rounded-lg transition-colors duration-200 cursor-pointer border-0" %>
   </div>
 <% end %>

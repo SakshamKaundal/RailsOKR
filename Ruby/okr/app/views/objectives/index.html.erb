@@ -1,15 +1,29 @@
-<h1>Objectives</h1>
+<div class="max-w-3xl mx-auto px-4 py-8">
 
-<%= link_to "new objective", new_objective_path %>
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="text-3xl font-bold text-gray-900">Objectives</h1>
+    <%= link_to "New Objective", new_objective_path,
+          class: "bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors duration-200" %>
+  </div>
 
-<div id="objectives">
-  <% @objectives.each do |objective| %>
-    <div>
-    <ul>
-        <li>
-            <%= link_to objective.title, objective_path(objective.id) %>
-        </li>
-    </ul>
+  <% if @objectives.any? %>
+    <div class="flex flex-col gap-3">
+      <% @objectives.each do |objective| %>
+        <div class="bg-white rounded-xl px-5 py-4 shadow-sm border border-gray-100 flex items-center justify-between hover:shadow-md transition-shadow duration-200">
+          <div>
+            <%= link_to objective.title, objective_path(objective.id),
+                  class: "text-indigo-600 hover:text-indigo-800 font-semibold text-base hover:underline" %>
+          </div>
+          <span class="text-xs text-gray-400 font-medium">
+            <%= objective.key_results.count %> key result(s)
+          </span>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="bg-white rounded-xl px-6 py-10 shadow-sm border border-gray-100 text-center">
+      <p class="text-gray-400 text-sm italic">No objectives yet. Create your first one!</p>
     </div>
   <% end %>
+
 </div>
