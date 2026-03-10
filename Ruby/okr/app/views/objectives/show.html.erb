@@ -1,6 +1,35 @@
-<%= @objective.title %>
+<h1><%= @objective.title %></h1>
+
+<h2>Key Results</h2>
+<ul>
+  <% @objective.key_results.each do |kr| %>
+    <li>
+      <%= kr.description %> - Target: <%= kr.target_value %><%= kr.metric %>
+      <%= button_to "Delete", [@objective, kr], method: :delete, data: { turbo_confirm: "Are you sure?" } %>
+    </li>
+  <% end %>
+</ul>
+
+<h3>Add Key Result</h3>
+<%= form_with(model: [@objective, KeyResult.new], local: true) do |form| %>
+  <div>
+    <%= form.label :description %>
+    <%= form.text_field :description, placeholder: "Enter key result description" %>
+  </div>
+
+  <div>
+    <%= form.label :target_value %>
+    <%= form.number_field :target_value, value: 100 %>
+  </div>
+
+  <div>
+    <%= form.label :metric %>
+    <%= form.text_field :metric, value: "%" %>
+  </div>
+
+  <%= form.submit "Add Key Result" %>
+<% end %>
 
 <%= link_to "back", objectives_path %>
-
 <%= link_to "Edit", edit_objective_path(@objective) %>
 <%= button_to "Delete", @objective, method: :delete, data: { turbo_confirm: "Are you sure?" } %>
