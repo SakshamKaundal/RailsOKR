@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: okr-web
+    command: ./bin/rails server -b 0.0.0.0
+    ports:
+      - "3000:3000"
+    environment:
+      RAILS_ENV: development
+      DATABASE_URL: postgresql://okr_user:okr_password@db:5432/okr_development
+      REDIS_URL: redis://redis:6379/0
+    volumes:
+      - .:/rails
+      - /rails/node_modules
+      - /rails/tmp
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    stdin_open: true
+    tty: true
+
+  db:
+    image: postgres:15-alpine
+    container_name: okr-db
+    environment:
+      POSTGRES_USER: okr_user
+      POSTGRES_PASSWORD: okr_password
+      POSTGRES_DB: okr_development
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U okr_user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: okr-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
